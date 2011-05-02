@@ -1,0 +1,13 @@
+# set the current runtime environment (development|staging|testing|production)
+SetEnv APPLICATION_ENV development
+
+# global php settings
+php_value short_open_tag 1
+
+# enable url rewriting
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
