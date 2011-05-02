@@ -1,0 +1,17 @@
+<? $message = $this->exception->getMessage(); ?>
+<? if (empty($message)): ?>
+<p class="error"><?= $this->translate->_("An error occured!") ?></p>
+<? else: ?>
+<p class="error"><?= $message ?></p>
+<? endif; ?>
+<? if ('development' == APPLICATION_ENV): ?>
+    <h3>Exception Details</h3>
+        <h4>Caught Exception</h4>
+            <p><?= get_class($this->exception) ?></p>
+        <h4>Message</h4>
+            <p><?= $this->exception->getMessage() ?></p>
+        <h4>Request Parameters</h4>
+            <pre><? var_dump($this->request->getParams()) ?></pre>
+        <h4>Stack Trace</h4>
+            <pre><?= $this->exception->getTraceAsString() ?></pre>
+<? endif; ?>

@@ -1,0 +1,65 @@
+DESCRIPTION
+
+Based on Zend Framework's recommended project directory structure [1], the
+project aims to create a skeleton for web applications. It provides a modular
+structure. Using this skeleton, you can create different type of applications
+like web sites, Facebook application, REST-like web services, etc.
+
+ZF - Skeleton supposes that:
+- It's supposed that Zend Framework related libraries (including itself) and
+other external libraries are added to the server's include path.
+- The application is using the MVC pattern.
+- Doctrine ORM is used.
+
+SYSTEM'S ARCHITECTURE
+
+Directory/File Descriptions
+
+/application                : houses the MVC system (your application),
+                              as well as modules, configurations and the
+                              bootstrap file.
+  Bootstrap.php             : the bootstrap file.
+  /configs                  : the application-wide configuration directory.
+    application.ini         : application's general-purpose configuration
+                              file.
+  /layouts                  : MVC-based layouts' directory. since Zend_Layout is
+                              capable of MVC and non-MVC-based layouts, the
+                              location of this directory reflects that layouts
+                              are not on a 1-to-1 relationship with controllers
+                              and are independent of templates within views
+                              directory.
+  /models                   : default models directory.
+    /generated              : automatically generated (by Doctrine ORM) core
+                              models.
+  /modules                  : modules directory. modules allow us to group
+                              a set of related controllers into a logically
+                              organized group. this directory's structure
+                              will most likely resemble the structure under
+                              the application directory. the sub-directories
+                              should be described.
+/data                       : place to store application data that is volatile
+                              and possibly temporary. the disturbance of data
+                              in this directory might cause the application
+                              to fail. also, information under this directory
+                              may or may not be committed to the repository
+                              (e.g. session files, cache files, sqlite dbs
+                              etc.)
+/public                     : contains all public files of the application
+                              (e.g. front controller, javascript/css files,
+                              images etc.). sub-directories should be described.
+    .htaccess               : contains web-root directory configurations for
+                              the Apache web server, some minor PHP flags and
+                              the application's current stage (e.g. testing)
+    index.php               : front controller (all requests are handled and
+                              dispatched, if necessary from this file)
+/scripts                    : contains maintenance and/or build scripts. such
+                              scripts might include command line, cron, or
+                              phing build scripts that are not executed at
+                              runtime but are part of the correct functioning
+                              of the application.
+/test                       : contains application tests (e.g. hand-written,
+                              PHPUnit test, Selenium-RC based tests, etc.)
+
+NOTES
+
+[1]: http://framework.zend.com/manual/1.10/en/project-structure.project.html
