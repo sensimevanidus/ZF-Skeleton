@@ -13,7 +13,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             ->addResourceType('formDefault', 'default/forms/', 'Form_Default')
             ->addResourceType('libDefault', 'default/lib/', 'Default')
             ->addResourceType('formApi', 'api/forms/', 'Form_Api')
-            ->addResourceType('libApi', 'api/lib/', 'Api');
+            ->addResourceType('libApi', 'api/lib/', 'Api')
+            ->addResourceType('formCockpit', 'cockpit/forms/', 'Form_Cockpit')
+            ->addResourceType('libCockpit', 'cockpit/lib/', 'Cockpit');
     }
 
     protected function _initLogging() {
@@ -46,6 +48,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $front = Zend_Controller_Front::getInstance();
         $front->addControllerDirectory(APPLICATION_PATH . '/modules/default/controllers', 'default');
         $front->addControllerDirectory(APPLICATION_PATH . '/modules/api/controllers', 'api');
+        $front->addControllerDirectory(APPLICATION_PATH . '/modules/cockpit/controllers', 'cockpit');
     }
 
     protected function _initDoctrine() {
@@ -78,6 +81,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $loader = new Zend_Loader_PluginLoader();
         $loader->addPrefixPath('ZFS_Default_Controller_Plugin', APPLICATION_PATH . '/modules/default/controllers/plugins');
         $loader->addPrefixPath('ZFS_Api_Controller_Plugin', APPLICATION_PATH . '/modules/api/controllers/plugins');
+        $loader->addPrefixPath('ZFS_Cockpit_Controller_Plugin', APPLICATION_PATH . '/modules/cockpit/controllers/plugins');
     }
 
     protected function _initHelpers() {
@@ -89,6 +93,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         Zend_Controller_Action_HelperBroker::addPath(
             APPLICATION_PATH . '/modules/api/controllers/helpers',
             'ZFS_Api_Controller_Helper'
+        );
+        Zend_Controller_Action_HelperBroker::addPath(
+            APPLICATION_PATH . '/modules/cockpit/controllers/helpers',
+            'ZFS_Cockpit_Controller_Helper'
         );
     }
 
@@ -102,6 +110,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         // setup the layout
         // Workarond: the initial layout is the default module
         Zend_Layout::startMvc(array('layoutPath' => APPLICATION_PATH . '/modules/default/layouts'));
+
+        // make sure that the ZF-Library is found on include path
+        require_once 'SE/Controller/Plugin/Layout.php';
+        $layoutModulePlugin = new SE_Controller_Plugin_Layout();
+        $layoutModulePlugin->registerModuleLayout(
+            'cockpit', APPLICATION_PATH . '/modules/cockpit/layouts'
+        );
+        $front->registerPlugin($layoutModulePlugin);
 
         $request = new Zend_Controller_Request_Http();
 
@@ -149,6 +165,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $router->addRoute('default', $routeLangDefault);
         $router->addRoute('lang', $routeLang);
         $router->addRoute('api', $restRouteDefault);
+
+        // add the cockpit module
+        $router->addRoute(
+            'cockpitModule',
+            new Zend_Controller_Router_Route('cockpit/:controller/:action',
+                array('module' => 'cockpit', 'controller' => 'index', 'action' => 'index')
+            )
+        );
     }
 
     /**
