@@ -1,5 +1,5 @@
 <phpunit bootstrap="./application/bootstrap.php" colors="true">         
-    <testsuite name="Kule">
+    <testsuite name="ZF-Skeleton">
         <directory>./</directory>
     </testsuite>
     <filter>
