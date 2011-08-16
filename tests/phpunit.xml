@@ -1,13 +1,15 @@
 <phpunit bootstrap="./application/bootstrap.php" colors="true">         
     <testsuite name="ZF-Skeleton">
-        <directory>./</directory>
+        <directory>./application</directory>
     </testsuite>
     <filter>
         <whitelist>
             <directory suffix=".php">../application/</directory>
             <exclude>
                 <file>../application/Bootstrap.php</file>
+                <file>./application/bootstrap.php</file>
                 <directory>../application/configs</directory>
+                <directory suffix=".phtml">../application</directory>
             </exclude>
         </whitelist>
     </filter>

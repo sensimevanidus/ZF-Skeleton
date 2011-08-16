@@ -10,14 +10,6 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase {
         parent::setUp();
     }
 
-    public function appBootstrap() {
-        $this->application = new Zend_Application(
-            APPLICATION_ENV,
-            APPLICATION_PATH . '/configs/application.ini'
-        );
-        $this->application->bootstrap();
-    }
-
     public function assertRedirect($message = ''){
         $message += "\n" .$this->getResponse()->getBody();
         parent::assertRedirect($message);
